@@ -3,8 +3,8 @@ import UsersController from 'App/Controllers/Http/UsersController';
 
 Route.group(() => {
   Route.group(() => {
-    Route.get('', async (ctx) => {
-      return new UsersController().findAll(ctx);
+    Route.get('', async () => {
+      return new UsersController().findAll();
     });
   }).prefix('/users');
 }).prefix('/api');
