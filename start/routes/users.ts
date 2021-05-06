@@ -6,5 +6,8 @@ Route.group(() => {
     Route.get('/', async () => {
       return new UsersController().findAll();
     });
+    Route.get('/:id', async ({ params }) => {
+      return new UsersController().findOne(params);
+    });
   }).prefix('/users');
 }).prefix('/api');
