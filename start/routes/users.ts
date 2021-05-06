@@ -3,7 +3,7 @@ import UsersController from 'App/Controllers/Http/UsersController';
 
 Route.group(() => {
   Route.group(() => {
-    Route.get('', async () => {
+    Route.get('/', async () => {
       return new UsersController().findAll();
     });
   }).prefix('/users');
