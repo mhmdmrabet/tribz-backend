@@ -4,8 +4,12 @@ export default class Users extends BaseSchema {
   protected tableName = 'users';
 
   public async up() {
+    this.defer(async () => {
+      await this.db.rawQuery('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";').exec();
+    });
+
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id');
+      table.uuid('id').primary().defaultTo(this.db.rawQuery('uuid_generate_v4()').knexQuery);
       table.text('email').unique().notNullable();
       table.text('password').notNullable();
       table.text('first_name');

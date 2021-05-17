@@ -1,7 +1,8 @@
 import User from 'App/Models/User';
+import CreateUserValidator from 'App/Validators/CreateUserValidator';
 
 export default class UsersController {
-  public async findAll() {
+  public async index() {
     try {
       const users = await User.all();
       if (!users) {
@@ -13,13 +14,14 @@ export default class UsersController {
     }
   }
 
-  public async findOne(params) {
+  public async store({ request }) {
     try {
-      const user = await User.find(params.id);
-      if (!user) {
-        return { message: "Cet utilisateur n'existe pas.", success: false };
+      const payload = await request.validate(CreateUserValidator);
+
+      const user = await User.create(payload);
+      if (user.$isPersisted) {
+        return { message: 'The user has been registered', success: true };
       }
-      return { user, success: true };
     } catch (error) {
       return { error, success: false };
     }

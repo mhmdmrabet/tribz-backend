@@ -5,4 +5,37 @@ Route.group(() => {
   Route.get('', async () => {
     return { message: 'Hello in API' };
   });
+})
+  .prefix('/api')
+  .middleware('auth');
+
+Route.get('login', async () => {
+  return { message: 'Page de connexion', success: true };
+});
+
+Route.post('login', async ({ auth, request, response }) => {
+  const { email, password } = request.only(['email', 'password']);
+  try {
+    await auth.use('web').attempt(email, password);
+    response.redirect('/api/dashboard');
+  } catch (error) {
+    return response.badRequest('Invalid credentials');
+  }
+}).prefix('/api');
+
+Route.post('logout', async ({ auth, response }) => {
+  await auth.use('web').logout();
+  response.redirect('/login');
+});
+
+Route.get('dashboard', async ({ auth, response }) => {
+  try {
+    await auth.use('web').authenticate();
+    return { message: 'You are successfully connected to the application', success: true };
+  } catch (error) {
+    return response.badRequest({
+      message: 'Please login to the app.',
+      success: false,
+    });
+  }
 }).prefix('/api');
