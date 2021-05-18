@@ -9,10 +9,10 @@ export default class Brand extends BaseModel {
   public title: string;
 
   @column()
-  public description: string;
+  public subtitle: string;
 
   @column()
-  public subtitle: string;
+  public description: string;
 
   @column()
   public logo: string;
