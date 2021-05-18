@@ -7,6 +7,7 @@ export default class Brands extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
       table.text('title').notNullable();
+      table.text('subtitle');
       table.text('description');
       table.text('logo');
       table.timestamps(true, true);

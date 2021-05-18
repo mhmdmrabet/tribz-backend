@@ -12,6 +12,9 @@ export default class Brand extends BaseModel {
   public description: string;
 
   @column()
+  public subtitle: string;
+
+  @column()
   public logo: string;
 
   @column.dateTime({ autoCreate: true })
