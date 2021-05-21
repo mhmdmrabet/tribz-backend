@@ -6,7 +6,7 @@ export default class UsersController {
     try {
       const users = await User.all();
       if (!users) {
-        return { message: "Cet utilisateur n'existe pas.", success: false };
+        return { message: 'No result found.', success: false };
       }
       return { users, success: true };
     } catch (error) {
@@ -24,6 +24,19 @@ export default class UsersController {
       }
     } catch (error) {
       return { error, success: false };
+    }
+  }
+
+  public async update({ params, request }) {
+    try {
+      const user = await User.findOrFail(params.id);
+      const userData = request.body();
+      await user.merge(userData).save();
+      if (user.$isPersisted) {
+        return { message: 'The information has been updated', success: true };
+      }
+    } catch (error) {
+      return { message: 'Information has not been updated', error, success: false };
     }
   }
 
