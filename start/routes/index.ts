@@ -1,13 +1,15 @@
 import Route from '@ioc:Adonis/Core/Route';
+import { BrandFactory, InterestFactory, UserFactory } from 'Database/factories';
 import './users';
 
 Route.group(() => {
   Route.get('', async () => {
-    return { message: 'Hello!' };
+    await UserFactory.create();
+    await BrandFactory.with('articles', 1).create();
+    await InterestFactory.create();
+    return { message: 'Va voir la Base de données !' };
   });
-})
-  .prefix('/api')
-  .middleware('auth');
+}).prefix('/api');
 
 Route.get('login', async () => {
   return { message: 'Page de connexion', success: true };
