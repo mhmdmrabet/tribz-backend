@@ -2,15 +2,25 @@ import User from 'App/Models/User';
 import CreateUserValidator from 'App/Validators/CreateUserValidator';
 
 export default class UsersController {
-  public async index() {
+  public async index({ response }) {
     try {
       const users = await User.all();
-      if (!users) {
-        return { message: 'No result found.', success: false };
+
+      if (users.length === 0) {
+        response.status(204);
       }
-      return { users, success: true };
+      return users;
     } catch (error) {
       return { error, success: false };
+    }
+  }
+
+  public async show({ params, response }) {
+    try {
+      const user = await User.findOrFail(params.id);
+      return user;
+    } catch (error) {
+      response.status(204);
     }
   }
 
