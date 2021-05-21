@@ -5,11 +5,11 @@ export default class PicturesArticles extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id');
+      table.uuid('id').primary().defaultTo(this.db.rawQuery('uuid_generate_v4()').knexQuery);
       table.text('path').notNullable();
       table.text('title').notNullable();
       table.text('description');
-      table.integer('article_id');
+      table.uuid('article_id');
       table.foreign('article_id').references('id').inTable('articles').onDelete('CASCADE');
       table.timestamps(true, true);
     });
