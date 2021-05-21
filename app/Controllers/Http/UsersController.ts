@@ -26,4 +26,13 @@ export default class UsersController {
       return { error, success: false };
     }
   }
+
+  public async destroy({ params }) {
+    try {
+      const user = await User.findByOrFail('id', params.id);
+      await user.delete();
+    } catch (error) {
+      return { error, success: false };
+    }
+  }
 }
