@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
-import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, hasMany, HasMany, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
 import Article from './Article';
+import User from './User';
 
 export default class Brand extends BaseModel {
   @column({ isPrimary: true })
@@ -20,6 +21,12 @@ export default class Brand extends BaseModel {
 
   @hasMany(() => Article)
   public articles: HasMany<typeof Article>;
+
+  @manyToMany(() => User, {
+    pivotTable: 'user_brand',
+    pivotTimestamps: true,
+  })
+  public users: ManyToMany<typeof User>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

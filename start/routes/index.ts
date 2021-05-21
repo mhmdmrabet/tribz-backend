@@ -3,7 +3,7 @@ import './users';
 
 Route.group(() => {
   Route.get('', async () => {
-    return { message: 'Hello in API' };
+    return { message: 'Hello!' };
   });
 })
   .prefix('/api')
