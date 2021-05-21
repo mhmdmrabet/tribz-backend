@@ -7,7 +7,7 @@ export default class InterestsUsers extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
       table.uuid('user_id').unsigned().references('users.id');
-      table.integer('interest_id').unsigned().references('interest.id');
+      table.integer('interest_id').unsigned().references('interests.id');
       table.timestamps(true);
     });
   }
