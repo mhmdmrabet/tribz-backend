@@ -5,9 +5,9 @@ export default class Tags extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').primary().defaultTo(this.db.rawQuery('uuid_generate_v4()').knexQuery);
+      table.increments('id').primary();
       table.text('title').notNullable();
-      table.uuid('article_id');
+      table.integer('article_id');
       table.foreign('article_id').references('id').inTable('articles').onDelete('CASCADE');
       table.timestamps(true, true);
     });

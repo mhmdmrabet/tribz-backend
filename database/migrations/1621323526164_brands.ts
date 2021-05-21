@@ -5,7 +5,7 @@ export default class Brands extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').primary().defaultTo(this.db.rawQuery('uuid_generate_v4()').knexQuery);
+      table.increments('id').primary();
       table.text('title').notNullable();
       table.text('subtitle');
       table.text('description');

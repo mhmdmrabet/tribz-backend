@@ -5,7 +5,7 @@ export default class Articles extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').primary().defaultTo(this.db.rawQuery('uuid_generate_v4()').knexQuery);
+      table.increments('id').primary();
       table.text('title').notNullable();
       table.text('picture_header');
       table.integer('stock');
@@ -18,7 +18,7 @@ export default class Articles extends BaseSchema {
       table.text('weight_measure');
       table.timestamp('date_limit');
       table.boolean('article_completed').defaultTo(false);
-      table.uuid('brand_id');
+      table.integer('brand_id');
       table.foreign('brand_id').references('id').inTable('brands').onDelete('CASCADE');
       table.timestamps(true, true);
     });
