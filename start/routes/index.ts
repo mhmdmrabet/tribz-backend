@@ -1,5 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route';
 import './users';
+import './brands';
 
 Route.group(() => {
   Route.get('', async () => {
