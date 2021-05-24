@@ -18,6 +18,7 @@ export default class UsersController {
   public async show({ params, response }) {
     try {
       const user = await User.findOrFail(params.id);
+
       return user;
     } catch (error) {
       response.status(204);
