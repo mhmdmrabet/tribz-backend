@@ -2,6 +2,7 @@ import Route from '@ioc:Adonis/Core/Route';
 import { BrandFactory, InterestFactory, UserFactory } from 'Database/factories';
 import './users';
 import './brands';
+import './articles';
 
 Route.group(() => {
   Route.get('', async () => {
