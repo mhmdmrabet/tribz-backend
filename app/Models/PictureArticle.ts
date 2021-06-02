@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { BaseModel, belongsTo, column, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
 import Article from './Article';
 
-export default class PictureArticle extends BaseModel {
+export default class PicturesArticle extends BaseModel {
   @column({ isPrimary: true })
   public id: number;
 
@@ -13,7 +13,7 @@ export default class PictureArticle extends BaseModel {
   public title: string;
 
   @column()
-  public description: number;
+  public description: string;
 
   @column()
   public articleId: number;
