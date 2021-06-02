@@ -3,6 +3,7 @@ import { BrandFactory, InterestFactory, UserFactory } from 'Database/factories';
 import './users';
 import './brands';
 import './articles';
+import './interest';
 
 Route.group(() => {
   Route.get('', async () => {
