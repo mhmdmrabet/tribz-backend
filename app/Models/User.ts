@@ -3,6 +3,7 @@ import { BaseModel, beforeSave, column, manyToMany, ManyToMany } from '@ioc:Adon
 import Hash from '@ioc:Adonis/Core/Hash';
 import Brand from './Brand';
 import Interest from './Interest';
+import Article from './Article';
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -74,6 +75,11 @@ export default class User extends BaseModel {
     pivotTimestamps: true,
   })
   public interests: ManyToMany<typeof Interest>;
+
+  @manyToMany(() => Article, {
+    pivotTimestamps: true,
+  })
+  public articles: ManyToMany<typeof Article>;
 
   @beforeSave()
   public static async hashPassword(user: User) {

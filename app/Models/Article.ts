@@ -1,7 +1,17 @@
 import { DateTime } from 'luxon';
-import { BaseModel, belongsTo, column, BelongsTo, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  belongsTo,
+  column,
+  BelongsTo,
+  hasMany,
+  HasMany,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm';
 import Brand from './Brand';
 import PictureArticle from './PictureArticle';
+import User from './User';
 
 export default class Article extends BaseModel {
   @column({ isPrimary: true })
@@ -51,6 +61,9 @@ export default class Article extends BaseModel {
 
   @hasMany(() => PictureArticle)
   public picturesArticles: HasMany<typeof PictureArticle>;
+
+  @manyToMany(() => User)
+  public users: ManyToMany<typeof User>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
