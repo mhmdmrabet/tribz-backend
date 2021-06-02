@@ -15,19 +15,17 @@ export default class BrandsController {
 
   public async show({ params }) {
     const brand = await Brand.findOrFail(params.id);
+    await brand.load('articles');
+    await brand.load('users');
     return brand;
   }
 
-  public async store({ request }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     const payload = await request.validate(CreateBrandValidator);
 
     const brand = await Brand.create(payload);
 
-    if (brand.$isPersisted) {
-      return { message: 'The brand has been saved', success: true };
-    } else {
-      return { message: 'Error', success: false };
-    }
+    response.created({ message: 'The brand has been saved', brand, success: true });
   }
 
   public async update({ params, request }: HttpContextContract) {

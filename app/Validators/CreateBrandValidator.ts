@@ -5,10 +5,7 @@ export default class CreateBrandValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    title: schema.string({}, [
-      rules.unique({ table: 'brands', column: 'title' }),
-      rules.alpha({ allow: ['space'] }),
-    ]),
+    title: schema.string({}, [rules.unique({ table: 'brands', column: 'title' })]),
     subtitle: schema.string.optional(),
     description: schema.string.optional(),
     logo: schema.string.optional({ trim: true }),
