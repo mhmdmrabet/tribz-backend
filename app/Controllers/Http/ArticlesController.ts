@@ -11,6 +11,8 @@ export default class ArticlesController {
 
   public async show({ params }) {
     const article = await Article.findOrFail(params.id);
+    await article.load('picturesArticles');
+    await article.load('brand');
     return article;
   }
 
