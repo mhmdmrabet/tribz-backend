@@ -62,7 +62,10 @@ export default class Article extends BaseModel {
   @hasMany(() => PictureArticle)
   public picturesArticles: HasMany<typeof PictureArticle>;
 
-  @manyToMany(() => User)
+  @manyToMany(() => User, {
+    pivotColumns: ['status', 'motivation', 'post'],
+    pivotTimestamps: true,
+  })
   public users: ManyToMany<typeof User>;
 
   @column.dateTime({ autoCreate: true })

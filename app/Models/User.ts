@@ -77,6 +77,7 @@ export default class User extends BaseModel {
   public interests: ManyToMany<typeof Interest>;
 
   @manyToMany(() => Article, {
+    pivotColumns: ['status', 'motivation', 'post'],
     pivotTimestamps: true,
   })
   public articles: ManyToMany<typeof Article>;

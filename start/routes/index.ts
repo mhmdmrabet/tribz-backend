@@ -5,6 +5,7 @@ import './brands';
 import './articles';
 import './interest';
 import './picturesArticles';
+import './orders';
 
 Route.group(() => {
   Route.get('', async () => {
