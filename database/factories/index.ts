@@ -12,7 +12,10 @@ export const UserFactory = Factory.define(User, () => {
     firstName: 'Mohamed',
     country: 'France',
   };
-}).build();
+})
+  .relation('brands', () => BrandFactory)
+  .relation('interests', () => InterestFactory)
+  .build();
 
 export const ArticleFactory = Factory.define(Article, () => {
   return {

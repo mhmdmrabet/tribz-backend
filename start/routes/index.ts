@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route';
-import { BrandFactory, InterestFactory, UserFactory } from 'Database/factories';
+import { UserFactory } from 'Database/factories';
 import './users';
 import './brands';
 import './articles';
@@ -8,9 +8,10 @@ import './picturesArticles';
 
 Route.group(() => {
   Route.get('', async () => {
-    await UserFactory.create();
-    await BrandFactory.with('articles', 1).create();
-    await InterestFactory.create();
+    await UserFactory.with('brands', 1, (brands) => brands.with('articles', 1))
+      .with('interests', 1)
+      .create();
+
     return { message: 'Va voir la Base de données !' };
   });
 }).prefix('/api');
