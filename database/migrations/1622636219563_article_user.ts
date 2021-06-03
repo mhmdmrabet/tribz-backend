@@ -8,7 +8,7 @@ export default class ArticleUser extends BaseSchema {
       table.increments('id').primary();
       table.uuid('user_id').unsigned().references('users.id');
       table.integer('article_id').unsigned().references('articles.id');
-      table.text('status');
+      table.text('status').defaultTo('pending');
       table.text('motivation');
       table.boolean('post').defaultTo(false);
       table.timestamps(true);
