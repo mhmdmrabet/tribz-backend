@@ -12,6 +12,7 @@ export default class ArticleUser extends BaseSchema {
       table.text('motivation');
       table.boolean('post').defaultTo(false);
       table.timestamps(true);
+      table.unique(['article_id', 'user_id']);
     });
   }
 
