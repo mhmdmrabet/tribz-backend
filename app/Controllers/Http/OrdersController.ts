@@ -5,8 +5,12 @@ import User from 'App/Models/User';
 import { DateTime } from 'luxon';
 
 export default class OrdersController {
+  /**
+   * Récupère les orders d'un user
+   * @returns []
+   */
   public async userOrders() {
-    const user = await User.findOrFail('99eac339-d753-4298-9811-5048440d0123');
+    const user = await User.findOrFail('e0a96603-71c3-4e50-9f25-d9e2e124cb74');
     await user.load('articles');
 
     const articles = user.articles;
@@ -40,17 +44,35 @@ export default class OrdersController {
 
   public async store({ response, request }: HttpContextContract) {
     // === https://docs.adonisjs.com/reference/orm/relations/many-to-many#attach
-    const user = await User.findOrFail('99eac339-d753-4298-9811-5048440d0123');
-    const { motivation, status, articleId } = request.body();
-    const article = await Article.findOrFail(articleId);
-    await user.related('articles').attach({
-      [article.id]: {
-        motivation,
-        status,
-      },
-    });
+    try {
+      const user = await User.findOrFail('e0a96603-71c3-4e50-9f25-d9e2e124cb74');
+      const { motivation, status, articleId } = request.body();
+      const article = await Article.findOrFail(articleId);
+      await user.related('articles').attach({
+        [article.id]: {
+          motivation,
+          status,
+        },
+      });
 
-    response.created();
+      response.created();
+    } catch (error) {
+      let message = error;
+      if (error.code === '23505') {
+        message = 'Unique violation';
+      }
+      response.badRequest({ message });
+    }
+  }
+
+  // ==> Detruit tout les rows de cette order ,
+  // Ça ne doit pas poser problème car un un user n'a qu'un seul article
+  public async destroy({ params }: HttpContextContract) {
+    const user = await User.findOrFail('9126caff-2390-4b50-9086-f3bca3e9376a');
+    await user.related('articles').query();
+    await user.related('articles').detach([params.articleId]);
+
+    return { message: 'Go to Data Base' };
   }
 
   public async update({ request, response }: HttpContextContract) {
