@@ -1,6 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import Database from '@ioc:Adonis/Lucid/Database';
 import Article from 'App/Models/Article';
 import User from 'App/Models/User';
+import { DateTime } from 'luxon';
 
 export default class OrdersController {
   public async userOrders() {
@@ -49,5 +51,23 @@ export default class OrdersController {
     });
 
     response.created();
+  }
+
+  public async update({ request, response }: HttpContextContract) {
+    try {
+      const { post, motivation, status } = request.body();
+      const rows = await Database.from('article_user').where('id', 1).update(
+        {
+          status,
+          motivation,
+          post,
+          updated_at: DateTime.now().toString(),
+        },
+        ['status', 'motivation', 'post', 'updated_at']
+      );
+      response.ok({ order: rows[0] });
+    } catch (error) {
+      response.badRequest({ error });
+    }
   }
 }
