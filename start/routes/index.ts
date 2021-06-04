@@ -1,5 +1,8 @@
 import Route from '@ioc:Adonis/Core/Route';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { UserFactory } from 'Database/factories';
+import { schema, rules } from '@ioc:Adonis/Core/Validator';
+
 import './users';
 import './brands';
 import './articles';
@@ -16,6 +19,25 @@ Route.group(() => {
     return { message: 'Va voir la Base de données !' };
   });
 }).prefix('/api');
+
+Route.group(() => {
+  Route.post('signup', async ({ request }: HttpContextContract) => {
+    const newUserSchema = schema.create({
+      firstName: schema.string.optional(),
+      lastName: schema.string.optional(),
+      email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
+      password: schema.string({ escape: true, trim: true }, [
+        rules.confirmed('passwordConfirmation'),
+        rules.minLength(8),
+        rules.regex(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-@#$%^&*_?]).{8,}/),
+      ]),
+    });
+
+    const payload = await request.validate({ schema: newUserSchema });
+
+    return { payload };
+  });
+}).prefix('api');
 
 Route.get('login', async () => {
   return { message: 'Page de connexion', success: true };
