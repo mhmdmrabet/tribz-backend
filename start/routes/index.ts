@@ -2,7 +2,7 @@ import Route from '@ioc:Adonis/Core/Route';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { UserFactory } from 'Database/factories';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-
+import User from 'App/Models/User';
 import './users';
 import './brands';
 import './articles';
@@ -21,7 +21,7 @@ Route.group(() => {
 }).prefix('/api');
 
 Route.group(() => {
-  Route.post('signup', async ({ request }: HttpContextContract) => {
+  Route.post('signup', async ({ request, response, auth }: HttpContextContract) => {
     const newUserSchema = schema.create({
       firstName: schema.string.optional(),
       lastName: schema.string.optional(),
@@ -34,8 +34,10 @@ Route.group(() => {
     });
 
     const payload = await request.validate({ schema: newUserSchema });
-
-    return { payload };
+    await User.create(payload);
+    const { email, password } = payload;
+    await auth.use('web').attempt(email, password);
+    response.noContent();
   });
 }).prefix('api');
 
