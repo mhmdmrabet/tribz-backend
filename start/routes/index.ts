@@ -20,7 +20,7 @@ Route.group(() => {
 
 Route.get('login', async () => {
   return { message: 'Page de connexion', success: true };
-});
+}).prefix('/api');
 
 Route.post('login', async ({ auth, request, response }) => {
   const { email, password } = request.only(['email', 'password']);
@@ -36,7 +36,7 @@ Route.post('login', async ({ auth, request, response }) => {
 Route.post('logout', async ({ auth, response }) => {
   await auth.use('web').logout();
   response.redirect('/login');
-});
+}).prefix('/api');
 
 Route.get('dashboard', async ({ auth, response }) => {
   try {
