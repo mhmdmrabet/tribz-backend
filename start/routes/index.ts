@@ -47,12 +47,12 @@ Route.get('login', async () => {
 
 Route.post('login', async ({ auth, request, response }) => {
   const { email, password } = request.only(['email', 'password']);
+
   try {
     await auth.use('web').attempt(email, password);
-    const user = await User.findByOrFail('email', email);
-    return { user };
+    return { user: auth.user };
   } catch (error) {
-    return response.badRequest('Invalid credentials');
+    return response.badRequest({ message: 'Invalid credentials', success: false });
   }
 }).prefix('/api');
 
