@@ -1,1 +1,1 @@
-# tribz-backend
+# Tribz
