@@ -37,5 +37,5 @@
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19"
   },
-  "heroku-run-build-script": false
+  "heroku-run-build-script": true
 }
