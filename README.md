@@ -8,3 +8,4 @@ Config heroku :
 - Add `Procfile`
 - Change script start
 - Add var HOST
+- Change Env DB
