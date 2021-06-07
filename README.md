@@ -6,3 +6,4 @@ Config heroku :
 
 - node ace build --production
 - Add `Procfile`
+- Change script start
