@@ -6,6 +6,7 @@ import './articles';
 import './interest';
 import './picturesArticles';
 import './orders';
+import User from 'App/Models/User';
 
 Route.group(() => {
   Route.get('', async () => {
@@ -25,7 +26,8 @@ Route.post('login', async ({ auth, request, response }) => {
   const { email, password } = request.only(['email', 'password']);
   try {
     await auth.use('web').attempt(email, password);
-    response.redirect('/api/dashboard');
+    const user = await User.findByOrFail('email', email);
+    return { user };
   } catch (error) {
     return response.badRequest('Invalid credentials');
   }
