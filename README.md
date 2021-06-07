@@ -2,4 +2,6 @@
 
 ## Tribz PostgreSQL
 
-Config heroku
+Config heroku :
+
+- node ace build --production
