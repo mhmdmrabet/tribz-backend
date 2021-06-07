@@ -33,7 +33,7 @@ Route.post('login', async ({ auth, request, response }) => {
   }
 }).prefix('/api');
 
-Route.post('logout', async ({ auth, response }) => {
+Route.get('logout', async ({ auth, response }) => {
   await auth.use('web').logout();
   response.redirect('/login');
 }).prefix('/api');
