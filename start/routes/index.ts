@@ -35,7 +35,7 @@ Route.post('login', async ({ auth, request, response }) => {
 
 Route.get('logout', async ({ auth, response }) => {
   await auth.use('web').logout();
-  response.redirect('/login');
+  response.redirect('/api/login');
 }).prefix('/api');
 
 Route.get('dashboard', async ({ auth, response }) => {
