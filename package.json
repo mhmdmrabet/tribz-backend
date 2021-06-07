@@ -7,9 +7,7 @@
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
-    "format": "prettier --write .",
-    "heroku-postbuild": "echo Skip build on Heroku",
-    "test": "echo test"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.1.1",
@@ -37,6 +35,5 @@
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19"
-  },
-  "heroku-run-build-script": true
+  }
 }

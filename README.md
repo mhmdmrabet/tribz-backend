@@ -5,3 +5,4 @@
 Config heroku :
 
 - node ace build --production
+- Add `Procfile`
