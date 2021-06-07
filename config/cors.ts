@@ -5,7 +5,7 @@
  * file.
  */
 
-import { CorsConfig } from '@ioc:Adonis/Core/Cors'
+import { CorsConfig } from '@ioc:Adonis/Core/Cors';
 
 const corsConfig: CorsConfig = {
   /*
@@ -44,7 +44,7 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: true,
+  origin: 'http://localhost:3000',
 
   /*
   |--------------------------------------------------------------------------
@@ -129,6 +129,6 @@ const corsConfig: CorsConfig = {
   |
   */
   maxAge: 90,
-}
+};
 
-export default corsConfig
+export default corsConfig;
