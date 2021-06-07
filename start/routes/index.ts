@@ -9,7 +9,6 @@ import './articles';
 import './interest';
 import './picturesArticles';
 import './orders';
-import User from 'App/Models/User';
 
 Route.group(() => {
   Route.get('', async () => {
