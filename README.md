@@ -1,1 +1,3 @@
-# tribz-backend
+# Tribz
+
+## Tribz PostgreSQL
