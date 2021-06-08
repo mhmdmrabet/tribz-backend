@@ -7,7 +7,7 @@ Route.group(() => {
     const { code } = request.qs();
     const clientId = '2667165773583775';
     const clientSecret = 'b4e1ee3c2d415c3b5c66956863883541';
-    const redirectUri = 'https://tribz-pg.herokuapp.com/api/auth';
+    const redirectUri = 'https://tribz-pg.herokuapp.com/api/auth/';
     const urlExchangeTheCodeForAToken = `https://api.instagram.com/oauth/access_token/client_id=${clientId}&client_secret=${clientSecret}&grant_type=authorization_code&redirect_uri=${redirectUri}&code=${code}`;
 
     // const response = await axios.post(urlExchangeTheCodeForAToken);
