@@ -28,7 +28,7 @@ Route.group(() => {
       lastName: schema.string.optional(),
       email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
       password: schema.string({ escape: true, trim: true }, [
-        rules.confirmed('passwordConfirmation'),
+        // rules.confirmed('passwordConfirmation'),
         rules.minLength(8),
         rules.regex(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-@#$%^&*_?]).{8,}/),
       ]),
