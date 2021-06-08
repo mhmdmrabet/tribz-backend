@@ -1,6 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import axios from 'axios';
 
 // == https://api.instagram.com/oauth/authorize?client_id=****&redirect_uri=****&scope=user_profile,user_media&response_type=code
 Route.group(() => {
