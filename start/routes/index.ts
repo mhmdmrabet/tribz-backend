@@ -9,6 +9,7 @@ import './articles';
 import './interest';
 import './picturesArticles';
 import './orders';
+import './instagram';
 
 Route.group(() => {
   Route.get('', async () => {
