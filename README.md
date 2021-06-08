@@ -13,3 +13,4 @@
 ### Config Instagram
 
 - Récupération du code après le redirect vers la route auth
+- Formatage de la route après avoir récupérer le code de l'API
