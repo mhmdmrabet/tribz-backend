@@ -2,6 +2,7 @@ import Route from '@ioc:Adonis/Core/Route';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { UserFactory } from 'Database/factories';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
+import Mail from '@ioc:Adonis/Addons/Mail';
 import User from 'App/Models/User';
 import './users';
 import './brands';
@@ -10,7 +11,6 @@ import './interest';
 import './picturesArticles';
 import './orders';
 import './instagram';
-import Mail from '@ioc:Adonis/Addons/Mail';
 
 Route.group(() => {
   Route.get('', async () => {
@@ -29,7 +29,6 @@ Route.group(() => {
       lastName: schema.string.optional(),
       email: schema.string({}, [rules.email(), rules.unique({ table: 'users', column: 'email' })]),
       password: schema.string({ escape: true, trim: true }, [
-        // rules.confirmed('passwordConfirmation'),
         rules.minLength(8),
         rules.regex(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-@#$%^&*_?]).{8,}/),
       ]),
@@ -39,7 +38,19 @@ Route.group(() => {
     await User.create(payload);
     const { email, password } = payload;
     await auth.use('web').attempt(email, password);
-    response.noContent();
+    await Mail.sendLater((message) => {
+      message
+        .from('mohamed@tanke.fr')
+        .to(email)
+        .subject('Welcome')
+        .htmlView('emails/welcome', {
+          user: {
+            fullName: `${auth.user?.firstName} ${auth.user?.lastName}`,
+          },
+          redirectUrlWithUuid: `http://localhost:3333/api/verify/${auth.user?.id}`,
+        });
+    });
+    response.created({ message: 'Check your email adress' });
   });
 }).prefix('api');
 
@@ -74,19 +85,3 @@ Route.get('dashboard', async ({ auth, response }) => {
     });
   }
 }).prefix('/api');
-
-Route.get('mail', async () => {
-  await Mail.sendLater((message) => {
-    message
-      .from('mohamed@tanke.fr')
-      .to('mhmdmrabet@yahoo.fr')
-      .subject('Welcome')
-      .htmlView('emails/welcome', {
-        user: {
-          fullName: 'Mohamed',
-          url: 'https://adonisjs.com/',
-        },
-      });
-  });
-  return { message: 'Salut' };
-}).prefix('api');
