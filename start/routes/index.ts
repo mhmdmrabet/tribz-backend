@@ -54,6 +54,14 @@ Route.group(() => {
   });
 }).prefix('api');
 
+Route.group(() => {
+  Route.get('verify/:uuid', async ({ params }) => {
+    const user = await User.findOrFail(params.uuid);
+    await user.merge({ mailActivated: true }).save();
+    return { message: `Mail activated : ${user.mailActivated}` };
+  });
+}).prefix('api');
+
 Route.get('login', async () => {
   return { message: 'Page de connexion', success: true };
 }).prefix('/api');
