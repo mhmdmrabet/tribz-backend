@@ -10,6 +10,7 @@ import './interest';
 import './picturesArticles';
 import './orders';
 import './instagram';
+import Mail from '@ioc:Adonis/Addons/Mail';
 
 Route.group(() => {
   Route.get('', async () => {
@@ -73,3 +74,19 @@ Route.get('dashboard', async ({ auth, response }) => {
     });
   }
 }).prefix('/api');
+
+Route.get('mail', async () => {
+  await Mail.sendLater((message) => {
+    message
+      .from('mohamed@tanke.fr')
+      .to('mhmdmrabet@yahoo.fr')
+      .subject('Welcome')
+      .htmlView('emails/welcome', {
+        user: {
+          fullName: 'Mohamed',
+          url: 'https://adonisjs.com/',
+        },
+      });
+  });
+  return { message: 'Salut' };
+}).prefix('api');
