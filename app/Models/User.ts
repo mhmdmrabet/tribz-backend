@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon';
-import { BaseModel, beforeSave, column, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm';
+import {
+  BaseModel,
+  beforeSave,
+  column,
+  computed,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm';
 import Hash from '@ioc:Adonis/Core/Hash';
 import Brand from './Brand';
 import Interest from './Interest';
@@ -87,5 +94,10 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password);
     }
+  }
+
+  @computed()
+  public get fullName() {
+    return `${this.firstName} ${this.lastName}`;
   }
 }
