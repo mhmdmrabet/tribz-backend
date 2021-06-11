@@ -4,7 +4,8 @@ import User from 'App/Models/User';
 import RegisterValidator from 'App/Validators/RegisterValidator';
 import Encryption from '@ioc:Adonis/Core/Encryption';
 
-export default class RegisterController {
+export default class AuthController {
+  // === REGISTER CONTROLLER
   public async register({ request, response, auth }: HttpContextContract) {
     const payload = await request.validate(RegisterValidator);
     await User.create(payload);
@@ -26,6 +27,7 @@ export default class RegisterController {
     return response.created({ message: 'Check your email adress', success: true });
   }
 
+  // === VERIFY EMAIL
   public async verifyEmail({ params }: HttpContextContract) {
     const key = params.uuid;
     const decriptedKey: string = Encryption?.decrypt(key)!;
@@ -36,5 +38,27 @@ export default class RegisterController {
     }
     await user.merge({ mailActivated: true }).save();
     return { message: `Mail activated : ${user.mailActivated}`, success: true };
+  }
+
+  // === LOGIN
+  public async pageLogin() {
+    return { message: 'Login Page', success: true };
+  }
+
+  public async login({ auth, request, response }: HttpContextContract) {
+    const { email, password } = request.only(['email', 'password']);
+
+    try {
+      await auth.use('web').attempt(email, password);
+      return { user: auth.user };
+    } catch (error) {
+      return response.badRequest({ message: 'Invalid credentials', success: false });
+    }
+  }
+
+  // === LOGOUT
+  public async logout({ auth, response }: HttpContextContract) {
+    await auth.use('web').logout();
+    response.redirect('/api/login');
   }
 }
