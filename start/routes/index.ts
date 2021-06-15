@@ -23,6 +23,7 @@ Route.get('/instagram', async ({ view }) => {
     appId: INSTAGRAM_APP_ID,
     redirectUri: INSTAGRAM_APP_REDIRECT_URI,
     apiBaseUrl: API_BASE_URL,
+    instagramAppSecret: INSTAGRAM_APP_SECRET,
   });
   return html;
 }).prefix('api');
