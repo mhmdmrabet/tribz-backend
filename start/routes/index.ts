@@ -9,6 +9,24 @@ import './orders';
 import './instagram';
 import './auth';
 
+// === API INSTAGRAM
+const INSTAGRAM_APP_REDIRECT_URI = 'https://tribz-pg.herokuapp.com/api/instagram/';
+
+const INSTAGRAM_APP_SECRET = 'cdf7355c723e42aa3fe588046b0d8a28';
+
+const INSTAGRAM_APP_ID = '313087903749198';
+
+const API_BASE_URL = 'https://api.instagram.com/';
+
+Route.get('/instagram', async ({ view }) => {
+  const html = await view.render('instagram', {
+    appId: INSTAGRAM_APP_ID,
+    redirectUri: INSTAGRAM_APP_REDIRECT_URI,
+    apiBaseUrl: API_BASE_URL,
+  });
+  return html;
+}).prefix('api');
+
 // === HOMEPAGE
 Route.get('', async ({ auth, response }) => {
   try {
@@ -21,6 +39,31 @@ Route.get('', async ({ auth, response }) => {
     });
   }
 }).prefix('/api');
+
+// === AUTH FACEBOOK
+Route.get('/facebook/redirect', async ({ ally }) => {
+  return ally.use('facebook').redirect();
+});
+
+Route.get('/facebook/callback', async ({ ally }) => {
+  const facebook = ally.use('facebook');
+
+  if (facebook.accessDenied()) {
+    return 'Access was denied';
+  }
+
+  if (facebook.stateMisMatch()) {
+    return 'Request expired. Retry again';
+  }
+
+  if (facebook.hasError()) {
+    return facebook.getError();
+  }
+
+  const user = await facebook.user();
+
+  return { token: user.token.token };
+});
 
 // === FACTORY
 Route.group(() => {
