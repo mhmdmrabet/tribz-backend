@@ -1,3 +1,4 @@
+import Env from '@ioc:Adonis/Core/Env';
 import Route from '@ioc:Adonis/Core/Route';
 import axios from 'axios';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
@@ -11,9 +12,9 @@ import './orders';
 import './instagram';
 import './auth';
 
-const APP_ID = '3967004026686709';
 const REDIRECT_URI = 'https://tribz-pg.herokuapp.com/api/instagram/';
-const CLIENT_SECRET = 'c8cae55054729256699875b8b37eae7b';
+const CLIENT_SECRET = Env.get('FACEBOOK_CLIENT_SECRET');
+const APP_ID = Env.get('FACEBOOK_CLIENT_ID');
 
 //== BASE ROUTE
 Route.get('', async ({ response }: HttpContextContract) => {
