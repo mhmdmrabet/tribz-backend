@@ -1,4 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { UserFactory } from 'Database/factories';
 import './users';
 import './brands';
@@ -9,23 +10,15 @@ import './orders';
 import './instagram';
 import './auth';
 
+//== BASE ROUTE
+Route.get('', async ({ response }: HttpContextContract) => {
+  response.redirect('api');
+});
+
 // === API INSTAGRAM
-const INSTAGRAM_APP_REDIRECT_URI = 'https://tribz-pg.herokuapp.com/api/instagram/';
-
-const INSTAGRAM_APP_SECRET = 'cdf7355c723e42aa3fe588046b0d8a28';
-
-const INSTAGRAM_APP_ID = '313087903749198';
-
-const API_BASE_URL = 'https://api.instagram.com/';
-
-Route.get('/instagram', async ({ view }) => {
-  const html = await view.render('instagram', {
-    appId: INSTAGRAM_APP_ID,
-    redirectUri: INSTAGRAM_APP_REDIRECT_URI,
-    apiBaseUrl: API_BASE_URL,
-    instagramAppSecret: INSTAGRAM_APP_SECRET,
-  });
-  return html;
+Route.get('instagram', async ({ request }: HttpContextContract) => {
+  const { code } = request.qs();
+  return { code };
 }).prefix('api');
 
 // === HOMEPAGE
@@ -39,32 +32,17 @@ Route.get('', async ({ auth, response }) => {
       success: false,
     });
   }
-}).prefix('/api');
+}).prefix('api');
 
-// === AUTH FACEBOOK
-Route.get('/facebook/redirect', async ({ ally }) => {
-  return ally.use('facebook').redirect();
-});
-
-Route.get('/facebook/callback', async ({ ally }) => {
-  const facebook = ally.use('facebook');
-
-  if (facebook.accessDenied()) {
-    return 'Access was denied';
-  }
-
-  if (facebook.stateMisMatch()) {
-    return 'Request expired. Retry again';
-  }
-
-  if (facebook.hasError()) {
-    return facebook.getError();
-  }
-
-  const user = await facebook.user();
-
-  return { token: user.token.token };
-});
+// == FACEBOOK LOGIN
+Route.get('facebook/login', async ({ view }) => {
+  const html = await view.render('facebook', {
+    appId: '3967004026686709',
+    redirectUri: 'https://tribz-pg.herokuapp.com/api/instagram/',
+    apiBaseUrl: 'https://www.facebook.com/v11.0/dialog/oauth?',
+  });
+  return html;
+}).prefix('api');
 
 // === FACTORY
 Route.group(() => {
@@ -75,4 +53,4 @@ Route.group(() => {
 
     return response.created({ message: "Let's Go !", success: true });
   });
-}).prefix('/api');
+}).prefix('api');
