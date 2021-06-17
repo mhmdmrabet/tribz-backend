@@ -25,10 +25,10 @@ Route.get('instagram', async ({ request }: HttpContextContract) => {
   try {
     const { code } = request.qs();
     // ==> Echange code contre TOKEN
-    const accessToken = await axios.get(
+    const response = await axios.get(
       `https://graph.facebook.com/v11.0/oauth/access_token?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&client_secret=${CLIENT_SECRET}&code=${code}`
     );
-    return { accessToken };
+    return { data: response.data };
   } catch (error) {
     return { error };
   }
@@ -48,13 +48,12 @@ Route.get('', async ({ auth, response }) => {
 }).prefix('api');
 
 // == FACEBOOK LOGIN
-Route.get('facebook/login', async ({ view }) => {
-  const html = await view.render('facebook', {
-    appId: APP_ID,
-    redirectUri: REDIRECT_URI,
-    apiBaseUrl: 'https://www.facebook.com/v11.0/dialog/oauth?',
-  });
-  return html;
+Route.get('facebook/login', async ({ response }: HttpContextContract) => {
+  response
+    .redirect()
+    .toPath(
+      `https://www.facebook.com/v11.0/dialog/oauth?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&state=26`
+    );
 }).prefix('api');
 
 // === FACTORY
