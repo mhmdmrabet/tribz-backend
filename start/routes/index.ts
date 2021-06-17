@@ -10,6 +10,10 @@ import './orders';
 import './instagram';
 import './auth';
 
+const APP_ID = '3967004026686709';
+const REDIRECT_URI = 'https://tribz-pg.herokuapp.com/api/instagram/';
+const CLIENT_SECRET = 'c8cae55054729256699875b8b37eae7b';
+
 //== BASE ROUTE
 Route.get('', async ({ response }: HttpContextContract) => {
   response.redirect('api');
@@ -18,7 +22,9 @@ Route.get('', async ({ response }: HttpContextContract) => {
 // === API INSTAGRAM
 Route.get('instagram', async ({ request }: HttpContextContract) => {
   const { code } = request.qs();
-  return { code };
+  // ==> Echange code contre TOKEN
+  const urlForGetToken = `https://graph.facebook.com/v11.0/oauth/access_token?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&client_secret=${CLIENT_SECRET}&code=${code}`;
+  return { urlForGetToken };
 }).prefix('api');
 
 // === HOMEPAGE
@@ -37,8 +43,8 @@ Route.get('', async ({ auth, response }) => {
 // == FACEBOOK LOGIN
 Route.get('facebook/login', async ({ view }) => {
   const html = await view.render('facebook', {
-    appId: '3967004026686709',
-    redirectUri: 'https://tribz-pg.herokuapp.com/api/instagram/',
+    appId: APP_ID,
+    redirectUri: REDIRECT_URI,
     apiBaseUrl: 'https://www.facebook.com/v11.0/dialog/oauth?',
   });
   return html;
