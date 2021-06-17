@@ -1,4 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route';
+import axios from 'axios';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { UserFactory } from 'Database/factories';
 import './users';
@@ -21,10 +22,16 @@ Route.get('', async ({ response }: HttpContextContract) => {
 
 // === API INSTAGRAM
 Route.get('instagram', async ({ request }: HttpContextContract) => {
-  const { code } = request.qs();
-  // ==> Echange code contre TOKEN
-  const urlForGetToken = `https://graph.facebook.com/v11.0/oauth/access_token?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&client_secret=${CLIENT_SECRET}&code=${code}`;
-  return { urlForGetToken };
+  try {
+    const { code } = request.qs();
+    // ==> Echange code contre TOKEN
+    const accessToken = await axios.get(
+      `https://graph.facebook.com/v11.0/oauth/access_token?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&client_secret=${CLIENT_SECRET}&code=${code}`
+    );
+    return { accessToken };
+  } catch (error) {
+    return { error };
+  }
 }).prefix('api');
 
 // === HOMEPAGE
