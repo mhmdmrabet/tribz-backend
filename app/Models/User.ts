@@ -4,6 +4,8 @@ import {
   beforeSave,
   column,
   computed,
+  HasMany,
+  hasMany,
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm';
@@ -11,6 +13,7 @@ import Hash from '@ioc:Adonis/Core/Hash';
 import Brand from './Brand';
 import Interest from './Interest';
 import Article from './Article';
+import Token from './Token';
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -70,6 +73,9 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
+
+  @hasMany(() => Token)
+  public tokens: HasMany<typeof Token>;
 
   @manyToMany(() => Brand, {
     pivotTable: 'user_brand',
