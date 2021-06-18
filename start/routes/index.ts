@@ -1,5 +1,6 @@
 import Env from '@ioc:Adonis/Core/Env';
 import Route from '@ioc:Adonis/Core/Route';
+import Token from 'App/Models/Token';
 import axios from 'axios';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { UserFactory } from 'Database/factories';
@@ -29,7 +30,23 @@ Route.get('instagram', async ({ request }: HttpContextContract) => {
     const response = await axios.get(
       `https://graph.facebook.com/v11.0/oauth/access_token?client_id=${APP_ID}&redirect_uri=${REDIRECT_URI}&client_secret=${CLIENT_SECRET}&code=${code}`
     );
-    return { data: response.data };
+
+    const { access_token: token, expires_in: expiresIn } = response.data;
+
+    const userId = 'd4bddca9-1bcb-4cdb-87da-d4c67bb565d8';
+    const socialNetwork = 'facebook';
+    // ==> Create or Update Token in database
+    await Token.updateOrCreate(
+      { userId, socialNetwork },
+      {
+        token,
+        expiresIn,
+        socialNetwork,
+        userId,
+      }
+    );
+
+    return { message: "The user's token has been registered", success: true };
   } catch (error) {
     return { error };
   }
