@@ -23,7 +23,7 @@ Route.get('', async ({ response }: HttpContextContract) => {
 });
 
 // === API INSTAGRAM
-Route.get('instagram', async ({ request }: HttpContextContract) => {
+Route.get('instagram', async ({ request, auth }: HttpContextContract) => {
   try {
     const { code } = request.qs();
     // ==> Echange code contre TOKEN
@@ -33,7 +33,10 @@ Route.get('instagram', async ({ request }: HttpContextContract) => {
 
     const { access_token: token, expires_in: expiresIn } = response.data;
 
-    const userId = 'd4bddca9-1bcb-4cdb-87da-d4c67bb565d8';
+    await auth.use('web').attempt('mhmdmrabet@yahoo.fr', 'Tribz-2020!');
+
+    const userId = String(auth.use('web').user?.id);
+
     const socialNetwork = 'facebook';
     // ==> Create or Update Token in database
     await Token.updateOrCreate(

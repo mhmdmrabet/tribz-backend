@@ -12,7 +12,7 @@ export default class Token extends BaseModel {
   @column()
   public token: string;
 
-  @column()
+  @column.date()
   public expiresIn: any;
 
   @column()
