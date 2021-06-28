@@ -2,11 +2,10 @@ import Route from '@ioc:Adonis/Core/Route';
 
 Route.group(() => {
   // === REGISTER ROUTE
-  Route.post('', 'AuthController.register');
+  Route.post('register', 'AuthController.register');
 
   // === VERIFY EMAIL
   Route.get('verify-email', 'AuthController.sendMailForVerifyMail');
-  Route.get('verify-email/:uuid', 'AuthController.verifyEmail');
 
   // === LOGIN
   Route.get('login', 'AuthController.pageLogin');
@@ -14,4 +13,7 @@ Route.group(() => {
 
   // === LOGOUT
   Route.get('logout', 'AuthController.logout');
+
+  // === VALIDATE EMAIL
+  Route.get('/verify/:email', 'AuthController.verifyEmail').as('verifyEmail');
 }).prefix('api');
