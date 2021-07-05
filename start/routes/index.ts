@@ -62,11 +62,3 @@ Route.get('/social-data/:socialNetwork', async ({ auth, params }: HttpContextCon
     return error;
   }
 }).prefix('api');
-
-Route.get('test', async ({ auth }: HttpContextContract) => {
-  return { message: 'test', user: auth.user?.email };
-})
-  .prefix('api')
-  .middleware('auth');
-
-Route.get('/api/hello', 'HelloController.hello');

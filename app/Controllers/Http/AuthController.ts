@@ -1,9 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import { URL_PROD } from 'App/Utils/url';
 import Route from '@ioc:Adonis/Core/Route';
 import Mail from '@ioc:Adonis/Addons/Mail';
 import User from 'App/Models/User';
 import RegisterValidator from 'App/Validators/RegisterValidator';
-import { URL_PROD } from 'App/Utils/url';
 
 export default class AuthController {
   // === VERIFY EMAIL
@@ -62,7 +62,8 @@ export default class AuthController {
   }
 
   // === LOGIN
-  public async pageLogin() {
+  public async pageLogin({ auth }) {
+    await auth.use('web').attempt('mhmdmrabet@yahoo.fr', 'Tribz-2020!');
     return { message: 'Login Page', success: true };
   }
 
@@ -71,7 +72,7 @@ export default class AuthController {
 
     try {
       await auth.use('web').attempt(email, password);
-      return { user: auth.user };
+      return { data: { user: auth.user }, success: true };
     } catch (error) {
       return response.badRequest({ message: 'Invalid credentials', success: false });
     }

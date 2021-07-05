@@ -28,8 +28,7 @@ Route.get('instagram', async ({ request, auth }: HttpContextContract) => {
 
     const { access_token: token, expires_in: expiresIn } = response.data;
 
-    const userId = String(auth.use('web').user?.id);
-
+    const userId: string = await String(auth.user?.id);
     const socialNetwork = 'facebook';
     // ==> Create or Update Token in database
     await Token.updateOrCreate(
@@ -41,9 +40,10 @@ Route.get('instagram', async ({ request, auth }: HttpContextContract) => {
         userId,
       }
     );
-
     return { message: "The user's token has been registered", success: true };
   } catch (error) {
     return { message: error, success: false };
   }
-}).prefix('api');
+})
+  .prefix('api')
+  .middleware('auth');

@@ -1,6 +1,6 @@
 import User from 'App/Models/User';
 import CreateUserValidator from 'App/Validators/CreateUserValidator';
-
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 export default class UsersController {
   public async index({ response }) {
     try {
@@ -15,11 +15,11 @@ export default class UsersController {
     }
   }
 
-  public async show({ params, response }) {
+  public async show({ params, response }: HttpContextContract) {
     try {
       const user = await User.findOrFail(params.id);
 
-      return user;
+      return { data: user, success: true };
     } catch (error) {
       response.status(204);
     }
