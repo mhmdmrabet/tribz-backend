@@ -1,7 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Env from '@ioc:Adonis/Core/Env';
-import Token from 'App/Models/Token';
+// import Token from 'App/Models/Token';
 import axios from 'axios';
 
 const REDIRECT_URI = 'https://tribz-pg.herokuapp.com/api/instagram/';
@@ -18,7 +18,7 @@ Route.get('facebook/login', async ({ response }: HttpContextContract) => {
 }).prefix('api');
 
 // === API INSTAGRAM
-Route.get('instagram', async ({ request, auth }: HttpContextContract) => {
+Route.get('instagram', async ({ request /* , auth */ }: HttpContextContract) => {
   try {
     const { code } = request.qs();
     // ==> Echange code contre TOKEN
