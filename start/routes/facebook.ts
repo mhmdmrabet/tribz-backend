@@ -13,7 +13,7 @@ Route.get('facebook/login', async ({ response }: HttpContextContract) => {
   response
     .redirect()
     .toPath(
-      `https://www.facebook.com/v11.0/dialog/oauth?client_id=${APP_ID}&display=popup&response_type=tokenredirect_uri=${REDIRECT_URI}&state=26`
+      `https://www.facebook.com/v11.0/dialog/oauth?client_id=${APP_ID}&display=popup&response_type=token&redirect_uri=${REDIRECT_URI}&state=26`
     );
 }).prefix('api');
 
