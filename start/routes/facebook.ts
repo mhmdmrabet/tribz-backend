@@ -38,7 +38,7 @@ Route.get('instagram', async ({ request, auth }: HttpContextContract) => {
     const tokenInformation = await axios.get(
       `https://graph.facebook.com/debug_token?input_token=${token}&access_token=3967004026686709|NOzXbOEXJyAKVdUhvihsuAgcQ0g`
     );
-    const { user_id: facebookUserId } = tokenInformation.data;
+    const { user_id: facebookUserId } = tokenInformation.data.data;
 
     const socialNetwork = 'facebook';
     // ==> Create or Update Token in database
@@ -55,7 +55,6 @@ Route.get('instagram', async ({ request, auth }: HttpContextContract) => {
 
     return {
       message: "The user's token has been registered",
-      tokenInformation: tokenInformation.data,
       success: true,
     };
   } catch (error) {
