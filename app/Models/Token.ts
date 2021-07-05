@@ -10,6 +10,9 @@ export default class Token extends BaseModel {
   public userId: string;
 
   @column()
+  public facebookUserId: string;
+
+  @column()
   public token: string;
 
   @column.date()

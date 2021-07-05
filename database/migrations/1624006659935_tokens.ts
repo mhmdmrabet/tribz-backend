@@ -7,9 +7,10 @@ export default class Tokens extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
       table.uuid('user_id').unsigned().references('users.id').notNullable().onDelete('CASCADE');
+      table.text('facebook_user_id');
       table.text('token').notNullable();
       table.timestamp('expires_in');
-      table.text('social_network').defaultTo('instagram');
+      table.text('social_network').defaultTo('facebook');
       table.timestamps(true);
     });
   }

@@ -63,7 +63,7 @@ export default class AuthController {
 
   // === LOGIN
   public async pageLogin({ auth }) {
-    await auth.use('web').attempt('mhmdmrabet@yahoo.fr', 'Tribz-2020!');
+    await auth.use('web').attempt('mohamed@tanke.fr', 'mohamedpwd');
     return { message: 'Login Page', success: true };
   }
 
